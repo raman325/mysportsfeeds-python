@@ -44,15 +44,15 @@ class API_v1_0(object):
             'player_injuries',
             'daily_dfs',
             'current_season',
-            'latest_updates'
+            'latest_updates',
         ]
 
     # Verify a feed
-    def __verify_feed_name(self, feed):
+    def __verify_feed(self, feedName):
         is_valid = False
 
-        for value in self.valid_feeds:
-            if value == feed:
+        for feed in self.valid_feeds:
+            if feed == feedName:
                 is_valid = True
                 break
 
@@ -67,13 +67,12 @@ class API_v1_0(object):
 
         return is_valid
 
-    # Feed URL (with only a league specified)
-    def __league_only_url(self, league, feed, output_format, params):
-        return "{base_url}/{league}/{feed}.{output}".format(base_url=self.base_url, feed=feed, league=league, output=output_format)
-
-    # Feed URL (with league + season specified)
-    def __league_and_season_url(self, league, season, feed, output_format, params):
-        return "{base_url}/{league}/{season}/{feed}.{output}".format(base_url=self.base_url, feed=feed, league=league, season=season, output=output_format)
+    # Feed URL
+    def determine_url(self, league, season, feed, output_format, params):
+        if feed == "current_season":
+            return "{base_url}/{league}/{feed}.{output}".format(base_url=self.base_url, feed=feed, league=league, season=season, output=output_format)
+        else:
+            return "{base_url}/{league}/{season}/{feed}.{output}".format(base_url=self.base_url, feed=feed, league=league, season=season, output=output_format)
 
     # Generate the appropriate filename for a feed request
     def __make_output_filename(self, league, season, feed, output_format, params):
@@ -163,16 +162,13 @@ class API_v1_0(object):
         if not "force" in params:
             params['force'] = 'false'
 
-        if self.__verify_feed_name(feed) == False:
-            raise ValueError("Unknown feed '" + feed + "'.")
+        if self.__verify_feed(feed) == False:
+            raise ValueError("Unknown feed '" + feed + "'.  Known values are: " + str(self.valid_feeds))
 
         if self.__verify_format(output_format) == False:
             raise ValueError("Unsupported format '" + output_format + "'.")
 
-        if feed == 'current_season':
-            url = self.__league_only_url(league, feed, output_format, params)
-        else:
-            url = self.__league_and_season_url(league, season, feed, output_format, params)
+        url = self.determine_url(league, season, feed, output_format, params)
 
         if self.verbose:
             print("Making API request to '{}'.".format(url))
