@@ -150,7 +150,10 @@ class API_v1_0(object):
             if str(key) == 'league':
                 league = value
             elif str(key) == 'season':
-                season = value
+                if kwargs['feed'] == 'players':
+                    params['season'] = value
+                else:
+                    season = value
             elif str(key) == 'feed':
                 feed = value
             elif str(key) == 'format':
