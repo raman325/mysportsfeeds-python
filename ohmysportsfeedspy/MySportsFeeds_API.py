@@ -16,6 +16,7 @@ from ohmysportsfeedspy.v1_0 import API_v1_0
 from ohmysportsfeedspy.v1_1 import API_v1_1
 from ohmysportsfeedspy.v1_2 import API_v1_2
 from ohmysportsfeedspy.v2_0 import API_v2_0
+from ohmysportsfeedspy.v2_1 import API_v2_1
 
 ### Main class for all interaction with the MySportsFeeds API
 class MySportsFeeds(object):
@@ -43,10 +44,13 @@ class MySportsFeeds(object):
         if self.version == '2.0':
             self.api_instance = API_v2_0(self.verbose, self.store_type, self.store_location)
 
+        if self.version == '2.1':
+            self.api_instance = API_v2_1(self.verbose, self.store_type, self.store_location)
+
     # Make sure the version is supported
     def __verify_version(self, version):
-        if version != '1.0' and version != '1.1' and version != '1.2' and version != '2.0':
-            raise ValueError("Unrecognized version specified.  Supported versions are: '1.0', '1.1', '1.2', '2.0'")
+        if version != '1.0' and version != '1.1' and version != '1.2' and version != '2.0' and version != '2.1':
+            raise ValueError("Unrecognized version specified.  Supported versions are: '1.0', '1.1', '1.2', '2.0', '2.1'")
 
     # Verify the type and location of the stored data
     def __verify_store(self, store_type, store_location):
