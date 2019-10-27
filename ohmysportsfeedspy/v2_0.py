@@ -216,8 +216,5 @@ class API_v2_0(API_v1_0):
 
             return "{base_url}/{league}/{season}/date/{date}/odds_futures.{output}".format(base_url=self.base_url, league=league, season=season, date=params["date"], output=output_format)
 
-else:
-    return ""
-
         else:
             return ""
