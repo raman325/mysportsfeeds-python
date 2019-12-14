@@ -42,7 +42,9 @@ class API_v2_0(API_v1_0):
             'seasonal_player_stats',
             'seasonal_venues',
             'players',
-            'seasonal_standings'
+            'seasonal_standings',
+            'daily_game_lines',
+            'daily_futures'
         ]
 
     # Feed URL
@@ -197,6 +199,22 @@ class API_v2_0(API_v1_0):
                 raise AssertionError("You must specify a season for this request.")
 
             return "{base_url}/{league}/{season}/standings.{output}".format(base_url=self.base_url, league=league, season=season, output=output_format)
+
+        elif feed == "daily_game_lines":
+            if season == "":
+                raise AssertionError("You must specify a season for this request.")
+            if not "date" in params:
+                raise AssertionError("You must specify a 'date' param for this request.")
+
+            return "{base_url}/{league}/{season}/date/{date}/odds_gamelines.{output}".format(base_url=self.base_url, league=league, season=season, date=params["date"], output=output_format)
+
+        elif feed == "daily_futures":
+            if season == "":
+                raise AssertionError("You must specify a season for this request.")
+            if not "date" in params:
+                raise AssertionError("You must specify a 'date' param for this request.")
+
+            return "{base_url}/{league}/{season}/date/{date}/odds_futures.{output}".format(base_url=self.base_url, league=league, season=season, date=params["date"], output=output_format)
 
         else:
             return ""
