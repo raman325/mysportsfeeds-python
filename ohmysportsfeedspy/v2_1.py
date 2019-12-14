@@ -17,7 +17,7 @@ class API_v2_1(API_v1_0):
     def __init__(self, verbose, store_type=None, store_location=None):
         super().__init__(verbose, store_type, store_location)
 
-        self.base_url = "https://api.mysportsfeeds.com/v2.0/pull"
+        self.base_url = "https://api.mysportsfeeds.com/v2.1/pull"
 
         self.valid_feeds = [
             'seasonal_games',
