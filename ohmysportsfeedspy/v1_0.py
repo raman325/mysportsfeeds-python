@@ -208,6 +208,6 @@ class API_v1_0(object):
                     data = f.read().splitlines()
 
         else:
-            raise Warning("API call failed with error: {error}".format(error=r.status_code))
+            raise Warning("API call failed with error:", r.status_code)
 
         return data

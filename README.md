@@ -79,4 +79,14 @@ Example (v2.x): Get full game schedule and scores for the MLB 2016 playoff seaso
     output = msf.msf_get_data(league='mlb',season='2016-playoff',feed='seasonal_games',format='csv')
 ```
 
+Non-successful response codes can be handled using a snippet like below:
+
+```python
+try:
+    output = msf.get_data(...)
+except Warning as e:
+    status_code = e.args[1]
+    ... # Add logic to handle status codes other than 200 and 304 here
+```
+
 That's it!  Returned data is also stored locally under "results/" by default, in appropriately named files.
