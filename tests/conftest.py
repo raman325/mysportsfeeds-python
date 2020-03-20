@@ -18,5 +18,4 @@ def base():
 @pytest.fixture(scope="module")
 def feed():
     config = MsfLib(version="1.0")
-    feed_ = Feed(config)
-    return feed_
+    return Feed(config)

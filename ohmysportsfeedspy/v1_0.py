@@ -49,20 +49,13 @@ class API_v1_0(object):
 
     # Verify a feed
     def __verify_feed(self, feedName):
-        is_valid = False
-
-        for feed in self.valid_feeds:
-            if feed == feedName:
-                is_valid = True
-                break
-
-        return is_valid
+        return feedName in self.valid_feeds
 
     # Verify output format
     def __verify_format(self, format):
         is_valid = True
 
-        if format != 'json' and format != 'xml' and format != 'csv':
+        if format not in ['json', 'xml', 'csv']:
             is_valid = False
 
         return is_valid
@@ -162,7 +155,7 @@ class API_v1_0(object):
                 params[key] = value
 
         # add force=false parameter (helps prevent unnecessary bandwidth use)
-        if not "force" in params:
+        if "force" not in params:
             params['force'] = 'false'
 
         if self.__verify_feed(feed) == False:
